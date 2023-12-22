@@ -1,0 +1,52 @@
+﻿@model Abyssal_Events.Models.ViewModel.FilterUserViewModel
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+	<div class="container">
+		<h1>My Events</h1>
+	</div>
+</div>
+
+<div class="container py-5">
+	@if (Model is not null && Model.Events.Any())
+	{
+		<table class="table">
+			<thead>
+				<tr>
+					<td><span class="fw-bold">Id</span></td>
+					<td><span class="fw-bold">Title</span></td>
+					<td><span class="fw-bold">Category</span></td>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var eventPost in Model.Events)
+				{
+					<tr>
+						<td>@eventPost.Id</td>
+						<td>@eventPost.Title</td>
+						<td>
+							<span class="badge bg-secondary">@eventPost.Category.Name</span>
+						</td>
+						<td>
+							<a class="border p-1" style="text-decoration:none; color:black" asp-area="" asp-controller="ManageEvents" asp-action="Edit" asp-route-id="@eventPost.Id">Edit</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<nav>
+			<ul class="pagination justify-content-center">
+				@for (var pageNr = 1; pageNr <= @Model.MaxPageNumber; pageNr++)
+				{
+					<li class="page-item"><a class="page-link" style="color:black" asp-action="Events" asp-controller="ManageEvents" asp-route-page="@pageNr"> @pageNr </a></li>
+				}
+			</ul>
+		</nav>
+	}
+	else
+	{
+		<p>Not any events found</p>
+	}
+</div>

@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Abyss</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Abyssal_Events.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Pacifico" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
+            <div class="container">
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index" style="font-family:Pacifico">Abyss</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Events</a>
+                        </li>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-area=""
+                                           asp-controller="AdminCategories"
+                                           asp-action="Add">
+                                            Add Category
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-area=""
+                                           asp-controller="AdminCategories"
+                                           asp-action="Categories">
+                                            Manage Categories
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Categories">Categories</a>
+                        </li>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li>
+                                <a class="nav-link text-light"
+                                   asp-area=""
+                                   asp-controller="ManageEvents"
+                                   asp-action="Events">
+                                    My Events
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-light"
+                                   asp-area=""
+                                   asp-controller="ManageEvents"
+                                   asp-action="Add">
+                                    <i class="bi bi-plus-circle me-1"></i>Add Event
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <div>
+                                <a style="cursor:pointer;color:white;text-decoration:none"
+                                   asp-area=""
+                                   asp-controller="Events"
+                                   asp-action="Favorites"
+                                   asp-route-username="@userManager.GetUserName(User)"><i class="bi bi-heart-fill" style="color:#F9595F"></i><span class="ms-1">Favorites</span></a>
+                            </div>
+                        }
+                    </div>
+                    <div class="d-flex align-items-center">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <div class="ms-5 me-3 text-light">
+                                @User?.Identity?.Name
+                            </div>
+                            <a class="btn bg-light text-dark"
+                               asp-area=""
+                               asp-controller="Auth"
+                               asp-action="Logout"><i class="bi bi-box-arrow-left me-1"></i>Logout</a>
+                        }
+                        else
+                        {
+                            <a class="btn me-3 bg-light text-dark"
+                               asp-area=""
+                               asp-controller="Auth"
+                               asp-action="Login"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+                            <a class="btn bg-light text-dark"
+                               asp-area=""
+                               asp-controller="Auth"
+                               asp-action="Register"><i class="bi bi-person-add me-1"></i>Register</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Abyssal Events - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

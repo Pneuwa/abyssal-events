@@ -1,0 +1,69 @@
+﻿@model Abyssal_Events.Models.ViewModel.HomeViewModel
+@{
+    ViewData["Title"] = "Abyssal Events";
+}
+
+<div class="container mt-3 mb-3 justify-content-center">
+    <div class="row w-50 m-auto">
+        <div class="d-flex align-items-center justify-content-center">
+            @if(Model is not null && Model.Categories.Any())
+            {
+                foreach(var category in Model.Categories)
+                {
+                    <a style="cursor:pointer" 
+                        asp-area=""
+                        asp-controller="Events"
+                        asp-action="Filter"
+                        asp-route-categoryId="@category.Id"
+                        asp-route-page="1"><span class="badge bg-dark me-1 py-1">@category.Name</span></a>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            @if(Model is not null && Model.Events.Any())
+            {
+                @foreach(var eventPost in Model.Events)
+                {
+                    <div class="card mb-3">
+                        <img class="card-img-top" src="@eventPost.FeaturedImage" alt="@eventPost.Title">
+                        <div class="card-body">
+                            <h5 class="card-title">@eventPost.Title</h5>
+                            <p class="card-text">
+                                <span class="badge bg-secondary mt-2 mb-2 py-2">@eventPost.Category.Name</span>
+                                <br />
+                                <div class="justify-content-between">
+                                    <div>
+                                        <i class="bi bi-calendar"></i> @eventPost.Date.ToShortDateString()
+                                        <i class="bi bi-geo-alt-fill"></i> @eventPost.Place
+                                    </div>
+                                    <div class="justify-content-end">
+                                        <span class="text-secondary">@eventPost.Organizer</span>
+                                    </div>
+                                </div>
+                                <span>@eventPost.Description</span>
+                            </p>
+                            <a class="btn btn-dark" asp-area="" asp-controller="Events" asp-action="Index" asp-route-id="@eventPost.Id">Read more</a>
+                        </div>
+                    </div>
+                }
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @for (var pageNr = 1; pageNr <= Model.MaxPageNumber; pageNr++)
+                        {
+                            <li class="page-item"><a class="page-link" style="color:black" asp-action="Index" asp-controller="Home" asp-route-page="@pageNr"> @pageNr </a></li>
+                        }
+                    </ul>
+                </nav>
+            }
+            else
+            {
+                <p>No events found</p>
+            }
+        </div>
+    </div>
+</div>
