@@ -79,7 +79,7 @@ And it is ready to run.
 
 MIT License
 
-Copyright (c) 2023 Raiyader
+Copyright (c) 2023 Mert Evirgen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -103,5 +103,3 @@ SOFTWARE.
 
 Mert Evirgen - evrgnmert@gmail.com<br><br>
 [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/evirgenmert/)
-
-Project Link: [https://github.com/Raiyader/abyssal-events](https://github.com/Raiyader/abyssal-events)
